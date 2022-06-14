@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+    Alerta
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <form method="post" action="">
+        {% csrf_token %}
+        <p>Você tem certeza que deseja excluir "{{obj}}"?</p>
+        <input class="btn btn-success" type="submit" value="Confimar">
+        <a class="btn btn-danger" href="{{request.META.HTTP_REFERER}}">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

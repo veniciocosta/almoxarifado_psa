@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block titulo %}
+    Produtos
+{% endblock %}
+
+{% block content %}
+    <div class="container container-fluid" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    <ion-icon style="color: grey" name="funnel"></ion-icon>Filtros
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <form method="get">
+                        {{myFilter.form | crispy}}
+                        <button class="btn btn-primary" type="submit">Pesquisar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="table-responsive">
+        <div class="card">
+            <div class="card-body">
+                <div class="row row-cols-2">
+                    <div class="col" style="vertical-align: middle">
+                        <h4><b>Produtos</b></h4>
+                    </div>
+                    <div class="col" style="text-align: right;">
+                        <a class="btn btn-success" href="{% url 'movimentacoes:produto' %}">
+                            <ion-icon name="add-circle-outline"></ion-icon>
+                            Novo Produto
+                        </a>
+                    </div>
+                </div>
+                <hr>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th>Unidade de Medida</th>
+                            <th>Estoque</th>
+                            {% if user.is_authenticated %}
+                            <th>Ação</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for produto in produtos %}
+                        <tr>
+                            <td>{{produto.descricao}}</td>
+                            <td>{{produto.und_medida}}</td>
+                            <td>{{produto.quantidade}}</td>
+                            {% if user.is_authenticated %}
+                            <td>
+                                <a class="btn btn-primary"
+                                   href="{% url 'movimentacoes:produto_submit' produto.id %}">
+                                    <ion-icon name="pencil-outline"></ion-icon>
+                                </a>
+                                <a class="btn btn-danger"
+                                   href="{% url 'movimentacoes:produto_delete' produto.id %}">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </a>
+                            </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+    HomePage Almoxarifado
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+    <header>
+        <br>
+
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <a class="btn btn-primary btn-lg" href="{% url 'movimentacoes:movimentacao_lista' %}">
+                <p>Entradas e Saídas</p>
+                <p><ion-icon size="large" name="git-compare-outline"></ion-icon></p>
+            </a>
+            <a class="btn btn-secondary btn-lg" href="{% url 'movimentacoes:produto_lista' %}">
+                <p>Produtos</p>
+                <p><ion-icon size="large" name="fast-food-outline"></ion-icon></p>
+            </a>
+        </div>
+
+    </header>
+
+{% endblock %}

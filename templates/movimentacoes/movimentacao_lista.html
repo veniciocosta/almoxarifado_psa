@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block titulo %}
+    Entradas e Saídas
+{% endblock %}
+
+
+
+
+{% block content %}
+    <div class="container container-fluid" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    <ion-icon style="color: grey" name="funnel"></ion-icon>Filtros
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <form method="get">
+                        {{myFilter.form | crispy}}
+                        <button class="btn btn-primary" type="submit">Pesquisar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="table-responsive">
+        <div class="card">
+            <div class="card-body">
+                <div class="row row-cols-2">
+                    <div class="col" style="vertical-align: middle">
+                        <h4><b>Entradas e Saídas</b></h4>
+                    </div>
+                    <div class="col" style="text-align: right;">
+                        <a class="btn btn-success" href="{% url 'movimentacoes:movimentacao' %}">
+                            <ion-icon name="add-circle-outline"></ion-icon>
+                            Nova Movimentação
+                        </a>
+                    </div>
+                </div>
+                <hr>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Qtd.</th>
+                            <th>Obs.</th>
+                            {% if user.is_authenticated %}
+                                <th>Ação</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for movimentacao in movimentacoes %}
+                        <tr>
+
+                            <td>{{movimentacao.produto}}</td>
+
+                            {% if movimentacao.tipo == "SAIDA" %}
+                                <td style="color: red">
+                                    <ion-icon name="remove-circle-outline"></ion-icon>
+                                    {{movimentacao.quantidade}}
+                                </td>
+                            {% else %}
+                                <td style="color: green">
+                                    <ion-icon name="add-circle-outline"></ion-icon>
+                                    {{movimentacao.quantidade}}
+                                </td>
+                            {% endif %}
+
+                            <td>{{movimentacao.observacao}}<hr><small>{{movimentacao.created}}</small></td>
+
+                            {% if user.is_authenticated %}
+                            <td>
+                                <a class="btn btn-primary"
+                                   href="{% url 'movimentacoes:movimentacao_submit' movimentacao.id %}">
+                                    <ion-icon name="pencil-outline"></ion-icon>
+                                </a>
+                                <a class="btn btn-danger"
+                                   href="{% url 'movimentacoes:movimentacao_delete' movimentacao.id %}">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </a>
+                            </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- paginação -->
+    <br>
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">
+                                Limite por página:
+                            </a>
+                        </li>
+
+                        {% for limite in opcoes_limit %}
+                            {% if limite == movimentacoes.paginator.per_page %}
+                                <li class="page-item active">
+                                    <a class="page-link"
+                                       href="#">{{limite}}</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="{% url 'movimentacoes:movimentacao_lista' %}?limit={{limite}}&tipo={{filtro.tipo}}&observacao={{filtro.observacao}}&data_inicial={{filtro.data_inicial}}&data_final={{filtro.data_final}}&produto={{filtro.produto}}">{{limite}}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-md-6">
+                {% if movimentacoes.has_other_pages %}
+                  <ul class="pagination justify-content-center">
+                    {% if movimentacoes.has_previous %}
+                      <li class="page-item">
+                          <a class="page-link" href="{% url 'movimentacoes:movimentacao_lista' %}?limit={{filtro.limit}}&page={{movimentacoes.previous_page_number}}&tipo={{filtro.tipo}}&observacao={{filtro.observacao}}&data_inicial={{filtro.data_inicial}}&data_final={{filtro.data_final}}&produto={{filtro.produto}}">
+                                &laquo; Anterior
+                          </a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                          <a class="page-link" href="#">
+                                &laquo; Anterior
+                          </a>
+                      </li>
+                    {% endif %}
+
+                      <li class="page-item disabled">
+                          <a class="page-link" href="#">
+                            Página {{ movimentacoes.number }} de {{ movimentacoes.paginator.num_pages}}
+                          </a>
+                      </li>
+
+                    {% if movimentacoes.has_next %}
+                      <li class="page-item">
+                          <a class="page-link"
+                             href="{% url 'movimentacoes:movimentacao_lista' %}?limit={{filtro.limit}}&page={{movimentacoes.next_page_number}}&tipo={{filtro.tipo}}&observacao={{filtro.observacao}}&data_inicial={{filtro.data_inicial}}&data_final={{filtro.data_final}}&produto={{filtro.produto}}">
+                            Próxima &raquo;
+                          </a>
+                      </li>
+                    {% else %}
+                  <li class="page-item disabled">
+                      Próxima &raquo;
+                  </li>
+                {% endif %}
+              </ul>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+
+

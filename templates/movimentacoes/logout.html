@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+    Logout
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h1>Logout</h1>
+                <hr>
+                <p>Você acabou de sair do sistema!!!</p>
+                <a class="btn btn-primary" href="{%url 'movimentacoes:login' %}">Login</a>
+                <a class="btn btn-primary" href="{% url 'movimentacoes:home' %}">Início</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+    Alerta
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <p>Você não pode dar uma saída menor que a quantidade em estoque</p>
+    <a class="btn btn-danger" href="{{request.META.HTTP_REFERER}}">Cancelar</a>
+</div>
+{% endblock %}
