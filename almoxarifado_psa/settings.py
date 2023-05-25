@@ -84,6 +84,7 @@ WSGI_APPLICATION = 'almoxarifado_psa.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+    
 
 DATABASES = {
 
@@ -100,6 +101,8 @@ DATABASES = {
         'HOST': 'containers-us-west-145.railway.app',
 
         'PORT': '6834',
+
+        'URL': 'postgresql://postgres:5kioUqMjYjNsxn7Pj4mS@containers-us-west-145.railway.app:6834/railway'
 
     }
 
