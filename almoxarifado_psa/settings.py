@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'django_filters',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -52,6 +53,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://web-production-8325.up.railway.app',
+    'https://*.web-production-8325.up.railway.app',
 ]
 
 ROOT_URLCONF = 'almoxarifado_psa.urls'
