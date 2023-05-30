@@ -5,7 +5,28 @@
     Movimentação
 {% endblock %}
 
+{% block script %}
+    <script>
+            $(document).ready(function()
+            {
+                var $id_produto = $('#id_produto');
+
+                    $("#id_produto").select2({
+                        theme: 'bootstrap-5',
+                        width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+                        placeholder: $( this ).data( 'placeholder' ),
+                    });
+            });
+
+
+    </script>
+{% endblock %}
+
+
 {% block content %}
+
+
+
     <div class="container">
 
         <div class="card">
